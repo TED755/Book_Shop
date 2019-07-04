@@ -1,15 +1,28 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <h2>Список книг</h2>
+    <h2>Список книг</h2>
       <ol>
-        <% @book_list.each_with_index do |book,index| %>
+        <% @book_list.each do |book| %>
           <li>
             <dl>
               <dd class="card-text" id=author name=author><%= "Автор: #{book.author}" %></dd>
               <dd class="card-text" id=name name=name><%= "Название: #{book.name}" %></dd>
               <dd class="card-text" id=genre name=genre><%= "Жанр: #{book.genre}"%></dd>
               <dd class="card-text" id=price name=price><%= "Цена: #{book.price}"%></dd>
+              <dd class="card-text" id=count name=count><%= "Количество: #{book.count}"%></dd>
+              <br />
+              </dl>
+          </li>
+        <% end %>
+      </ol>
+      <h2>Список канцтоваров</h2>
+      <ol>
+        <% @stationery_list.each do |stat| %>
+          <li>
+            <dl>
+              <dd class="card-text" id=name name=name><%= "Название: #{stat.name}" %></dd>
+              <dd class="card-text" id=price name=price><%= "Цена: #{stat.price}"%></dd>
               <br />
               </dl>
           </li>

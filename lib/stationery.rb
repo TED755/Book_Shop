@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# 1
 class Stationery
   attr_accessor :name, :price
 
