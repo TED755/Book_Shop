@@ -16,4 +16,8 @@ class Book
     str = "Фамимлия автора: #{@author}\nНазвание: #{@name}
 Жанр: #{@genre}\nЦена: #{@price}\nКоличество: #{@count}"
   end
+
+  def equal?(book)
+    @author == book.author && @name == book.name && @genre == book.genre && @price == book.price
+  end
 end

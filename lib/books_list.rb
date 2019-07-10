@@ -20,13 +20,9 @@ class BooksList
     @books_list.each { |book| yield(book) }
   end
 
-  def equals?(first, second)
-    first.author.downcase == second.author.downcase && first.name.downcase == second.name.downcase
-  end 
-
   def consist?(new_book)
     @books_list.each do |book|
-      if equals?(book, new_book)
+      if book.equal?(new_book)
         book.count += 1
         return true
       end
