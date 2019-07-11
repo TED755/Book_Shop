@@ -26,7 +26,7 @@
     <label for="price">Цена</label>
     <input type="number" class="form-control" id="price" name="price" placeholder="300">
     <% if @errors %>
-      <%= @errors[:negative] %>
+      <%= @errors[:number_format] %>
     <% end %>
     </div>
   </div>

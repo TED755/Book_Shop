@@ -10,15 +10,20 @@ require_relative 'stationery_list'
 module Input
   FILE_BOOK = File.expand_path('../data/books.yaml', __dir__)
   FILE_STAT = File.expand_path('../data/stationeries.yaml', __dir__)
+
   def self.read_file_books
     books_list = BooksList.new
     exit unless File.exist?(FILE_BOOK)
     all_info = Psych.load_file(FILE_BOOK)
     all_info.each do |books|
       new_book = create_new_book(books)
-      books_list.add_book(new_book) if !(books_list.consist?(new_book))
+      if books_list.include?(new_book)
+        books_list.each_with_index do |book, index|
+          books_list.at(index).count += 1 if book.equal?(new_book)
+        end
+      else books_list.add_book(new_book)
+      end
     end
-    #puts books_list
     books_list
   end
 
@@ -27,8 +32,8 @@ module Input
     exit unless File.exist?(FILE_STAT)
     all_info = Psych.load_file(FILE_STAT)
     all_info.each do |stat|
-      new_stat = create_new_stationary(stat)
-      stationery_list.add_stationery(new_stat) if !(stationery_list.consist?(new_stat))
+      new_stat = create_new_stationery(stat)
+      stationery_list.add_stationery(new_stat) if !stationery_list.consist?(new_stat)
     end
     stationery_list
   end
@@ -42,9 +47,10 @@ module Input
     new_book
   end
 
-  def self.create_new_stationary(stat)
+  def self.create_new_stationery(stat)
     name = stat['Name']
     price = stat['Price']
-    stat = Stationery.new(name, price)
+    new_stat = Stationery.new(name, price)
+    new_stat
   end
 end

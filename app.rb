@@ -25,6 +25,23 @@ get '/new' do
   erb :new
 end
 
+post '/new' do
+  new_book = Book.new(params['author'], params['name'], params['genre'], params['price'])
+  new_book.check
+  @errors = new_book.errors
+  if @errors.empty?
+    if settings.book_list.include?(new_book)
+      settings.book_list.each_with_index do |book, index|
+        settings.book_list.at(index).count += 1 if book.equal?(new_book)
+      end
+    else settings.book_list.add_book(new_book)
+    end
+    redirect('/')
+  else
+    erb :new
+  end
+end
+
 get '/statistic' do
   erb :statistic
 end
@@ -35,4 +52,18 @@ end
 
 get '/shoplist' do
   erb :shoplist
+end
+
+get '/remove' do
+  erb :remove
+end
+
+post '/remove' do
+  @errors = 'Число должно быть больше 0 и меньше максимального номера книги'
+  if params['index'].to_i >= 1 && params['index'].to_i <= settings.book_list.size
+    settings.book_list.remove_book(params['index'])
+    redirect('/')
+  else  
+    erb :remove
+end
 end

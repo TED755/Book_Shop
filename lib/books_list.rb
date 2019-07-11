@@ -17,16 +17,29 @@ class BooksList
   end
 
   def each
-    @books_list.each { |book| yield(book) }
+    @books_list.each { |book| yield book }
   end
 
-  def consist?(new_book)
+  def include?(new_book)
     @books_list.each do |book|
-      if book.equal?(new_book)
-        book.count += 1
-        return true
-      end
+      return true if book.equal?(new_book)
     end
     false
-  end  
+  end
+
+  def each_with_index
+    @books_list.each_with_index { |book, index| yield(book, index) }
+  end
+
+  def at(index)
+    @books_list.at(index)
+  end
+
+  def size
+    @books_list.size
+  end
+
+  def remove_book(index)
+    @books_list.delete_at(index.to_i - 1)
+  end
 end

@@ -2,22 +2,23 @@
 
 # 1
 class Book
-  attr_accessor :author, :name, :genre, :price, :count
+  attr_accessor :author, :name, :genre, :price, :count, :errors
 
   def initialize(author, name, genre, price)
     @author = author.to_s
     @name = name.to_s
     @genre = genre.to_s
-    @price = price
+    @price = price.to_f
     @count = 1
+    @errors = {}
   end
 
-  def to_s
-    str = "Фамимлия автора: #{@author}\nНазвание: #{@name}
-Жанр: #{@genre}\nЦена: #{@price}\nКоличество: #{@count}"
+  def equal?(other)
+    @author == other.author && @name == other.name && @genre == other.genre && @price == other.price
   end
 
-  def equal?(book)
-    @author == book.author && @name == book.name && @genre == book.genre && @price == book.price
+  def check
+    @errors[:space] = 'Заполните это поле' if author.empty? && name.empty? && genre.empty?
+    @errors[:number_format] = 'Введите положительное число' if @price <= 0
   end
 end

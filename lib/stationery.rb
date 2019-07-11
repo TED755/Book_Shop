@@ -10,7 +10,7 @@ class Stationery
     @count = 1
   end
 
-  def equal?(stationery)
-    @name == stationery.name && @price == stationery.price
+  def equal?(other)
+    @name == other.name && @price == other.price
   end
 end

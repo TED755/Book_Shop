@@ -1,0 +1,11 @@
+<h2>Удаление книги по индексу</h2>
+<form method="post">
+  <div class="form-group">
+    <label for="index">Номер книги, которую вы желаете удалить</label>
+    <input type="number" class="form-control" id="index" name="index" placeholder="Введите номер">
+    <% if @errors %>
+      <%= @errors%>
+    <% end %>
+  </div>
+  <button type="submit" class="btn btn-primary">Удалить</button>
+</form>
