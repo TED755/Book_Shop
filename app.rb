@@ -6,6 +6,7 @@ require_relative 'lib/books_list'
 require_relative 'lib/stationery'
 require_relative 'lib/stationery_list'
 require_relative 'lib/input'
+require_relative 'lib/books_commands'
 
 configure do
   set :book_list, Input.read_file_books
@@ -50,6 +51,24 @@ get '/search' do
   erb :search
 end
 
+post '/search' do
+  @errors = {}
+  @errors[:space] = 'Заполните это поле' if params['value'].empty?
+  if @errors.empty?
+    if params['search'].casecmp('Названию').zero?
+      @search_result = BooksCommands.find_by_name(settings.book_list, params['value'])
+      @errors[:not_founded] = 'Ничего не найдено' if @search_result.empty?
+      erb :show_name_search_res
+    else
+      @search_result = BooksCommands.find_by_genre(settings.book_list, params['value'])
+      @errors[:not_founded] = 'Ничего не найдено' if @search_result.empty?
+      erb :show_genre_search_res
+    end
+  else
+    erb :search
+  end
+end
+
 get '/shoplist' do
   erb :shoplist
 end
@@ -63,7 +82,7 @@ post '/remove' do
   if params['index'].to_i >= 1 && params['index'].to_i <= settings.book_list.size
     settings.book_list.remove_book(params['index'])
     redirect('/')
-  else  
+  else
     erb :remove
-end
+  end
 end

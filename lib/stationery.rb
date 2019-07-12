@@ -11,6 +11,6 @@ class Stationery
   end
 
   def equal?(other)
-    @name == other.name && @price == other.price
+    @name == other.name.downcase && @price == other.price
   end
 end

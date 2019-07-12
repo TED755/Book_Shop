@@ -14,11 +14,12 @@ class Book
   end
 
   def equal?(other)
-    @author == other.author && @name == other.name && @genre == other.genre && @price == other.price
+    @author == other.author.downcase && @name == other.name.downcase && @genre == other.genre.downcase &&
+      @price == other.price
   end
 
   def check
-    @errors[:space] = 'Заполните это поле' if author.empty? && name.empty? && genre.empty?
+    @errors[:space] = 'Заполните это поле' if author.empty? || name.empty? || genre.empty?
     @errors[:number_format] = 'Введите положительное число' if @price <= 0
   end
 end
