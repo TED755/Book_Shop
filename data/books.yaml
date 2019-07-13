@@ -22,6 +22,10 @@
   Name: Герой нашего времени
   Genre: Романтизм
   Price: 150
+- Author: Островский
+  Name: Гроза
+  Genre: Драма
+  Price: 170
 - Author: Лермонтов
   Name: Герой нашего времени
   Genre: Романтизм
@@ -34,3 +38,11 @@
   Name: Дубровский
   Genre: Драма
   Price: 130
+- Author: Оруэлл
+  Name: 1984
+  Genre: Антиутопия
+  Price: 200
+- Author: Островский
+  Name: Гроза
+  Genre: Драма
+  Price: 170

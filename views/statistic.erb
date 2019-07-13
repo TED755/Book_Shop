@@ -1,1 +1,20 @@
-<h2>Статистика</h2>
+<div class="container">
+  <div class="row">
+    <div class="col">
+    <h2>Статистика</h2>
+      <ul>
+        <% @books_statistic.each_with_index do |stat, index| %>
+          <h4> <%= @genre_list[index] %> </h4>
+          <li><%= "Количество книг: #{stat[:count_books]}" %></li>
+          <li><%= "Средняя стоимость: #{stat[:average_cost]}" %></li>
+          <li><%= "Количество экземпляров: #{stat[:copies_number]}" %></li>           
+          <li><%= "Процент количества экземпляров относительно общего числа товаров: #{stat[:percent]}%" %></li>                   
+          <br />
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
+<% if @errors%>
+<h2><% @errors %></h2>
+<% end %>

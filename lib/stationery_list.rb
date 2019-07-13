@@ -16,6 +16,10 @@ class StationeryList
     @stationery_list.each { |stat| yield(stat) }
   end
 
+  def size
+    @stationery_list.size
+  end
+
   def consist?(new_stat)
     @stationery_list.each do |stat|
       if stat.equal?(new_stat)

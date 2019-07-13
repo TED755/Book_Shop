@@ -44,6 +44,10 @@ post '/new' do
 end
 
 get '/statistic' do
+  @errors = {}
+  @errors[:void_list] = 'Ничего нет в базе' if settings.book_list.empty?
+  @genre_list = BooksCommands.get_uniq(settings.book_list)
+  @books_statistic = BooksCommands.statistic(settings.book_list, settings.stationery_list, @genre_list)
   erb :statistic
 end
 
