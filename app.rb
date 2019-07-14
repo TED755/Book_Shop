@@ -7,16 +7,17 @@ require_relative 'lib/stationery'
 require_relative 'lib/stationery_list'
 require_relative 'lib/input'
 require_relative 'lib/books_commands'
+require_relative 'lib/shopping_list'
+require_relative 'lib/shoplists_base'
 
 configure do
   set :book_list, Input.read_file_books
   set :stationery_list, Input.read_file_stationeries
+  set :shoplist_base, ShopListsBase.new
+  set :shoplist, ShoppingList.new
 end
 
 get '/' do
-  # book_list = Books_list.new
-  # book_list.add_book(Book.new("I", "about", "Drama", 120))
-  # @stationery_list = settings.stationery_list
   @book_list = settings.book_list
   @stationery_list = settings.stationery_list
   erb :main
@@ -74,19 +75,50 @@ post '/search' do
 end
 
 get '/shoplist' do
+  @book_list = settings.book_list
   erb :shoplist
 end
 
 get '/remove' do
+  @book_list = settings.book_list
   erb :remove
 end
 
 post '/remove' do
+  @book_list = settings.book_list
   @errors = 'Число должно быть больше 0 и меньше максимального номера книги'
   if params['index'].to_i >= 1 && params['index'].to_i <= settings.book_list.size
-    settings.book_list.remove_book(params['index'])
+    settings.book_list.remove_book_at(params['index'])
     redirect('/')
   else
     erb :remove
+  end
+end
+
+get '/new_shoplist' do
+  erb :new_shoplist
+end
+
+get '/add_new_book_shoplist' do
+  @book_list = settings.book_list
+  erb :add_new_book_shoplist
+end
+
+post '/add_new_book_shoplist' do
+  @book_list = settings.book_list
+  @errors = 'Число должно быть больше 0 и меньше максимального номера книги'
+  puts params['index'].to_i
+  if params['index'].to_i >= 1 && params['index'].to_i <= settings.book_list.size
+    settings.shoplist.add_book(settings.book_list.at(params['index'].to_i))
+    settings.shoplist.total += settings.book_list.at(params['index'].to_i).price
+    redirect('/new_shoplist')
+  else
+    erb :add_new_book_shoplist
+  end
+end
+
+post '/end' do
+  shoplist.each do |book|
+    settings.book_list.remove_book()
   end
 end

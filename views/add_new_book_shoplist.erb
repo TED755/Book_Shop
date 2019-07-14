@@ -1,8 +1,9 @@
-<h2>Удаление книги по индексу</h2>
 <form method="post">
-  <div class="form-group">
-    <label for="index">Номер книги, которую вы желаете удалить</label>
-    <ol>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h2>Выберите интересующую вас книгу и введите ее индекс</h2>
+        <ol>
           <% @book_list.each do |book| %>
             <li>
               <dl>
@@ -16,10 +17,13 @@
             </li>
           <% end %>
         </ol>
-    <input type="number" class="form-control" id="index" name="index" placeholder="Введите номер">
-    <% if @errors %>
-      <%= @errors%>
-    <% end %>
-  </div>
-  <button type="submit" class="btn btn-primary">Удалить</button>
+        <input type="number" class="form-control" id="index" name="index" placeholder="Введите номер">
+        <% if @errors %>
+          <%= @errors%>
+        <% end %>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Добавить книгу в список</button>
+    </div>  
+  </div> 
 </form>
