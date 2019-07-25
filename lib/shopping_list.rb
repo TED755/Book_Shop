@@ -1,34 +1,29 @@
+# frozen_string_literal: true
+
 require_relative 'book'
 require_relative 'stationery'
-
-
-
+# 1
 class ShoppingList
   attr_accessor :total
-  def initialize()
-    @books = []
-    @stationeries = []
+  def initialize
+    @list = []
     @total = 0.0
   end
 
-  def add_book(new_book)
-    @books.push(new_book)
+  def add(new_pos)
+    @list.push(new_pos)
+    @total += new_pos.price
   end
 
-  def add_statinery(new_stationery)
-    @stationeries.push(new_stationery)
-  end
-
-  def remove_book(index)
-    @books.delete_at(index)
-  end
-
-  def remove_stationery(index)
-    @stationeries.delete_at(index)
+  def remove_at(index)
+    @list.delete_at(index)
   end
 
   def each
-    @books.each { |book| yield book }
-    @stationeries.each {|stat| yield stat}
+    @list.each { |pos| yield pos }
+  end
+
+  def empty?
+    @list.empty?
   end
 end

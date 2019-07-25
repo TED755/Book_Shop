@@ -1,29 +1,7 @@
 <h2>Список покупок</h2>
 <div class="list-group">
-  <a href="#" class="list-group-item list-group-item-action">Вывести список</a>
-  <a href="/new_shoplist" class="list-group-item list-group-item-action">Добавить список</a>
-  <a href="#" class="list-group-item list-group-item-action">Удалить список</a>
-  <a href="#" class="list-group-item list-group-item-action">Добавить в список</a>
+  <a href="/show_shoplist" class="list-group-item list-group-item-action">Вывести список</a>
+  <a href="/new_shoplist" class="list-group-item list-group-item-action">Добавить в список</a>
   <a href="#" class="list-group-item list-group-item-action">Удалить из списка</a>
-</div>
-<div class="container">
-  <div class="row">
-    <div class="col">
-    <h2>Список книг</h2>
-      <ol>
-        <% @book_list.each do |book| %>
-          <li>
-            <dl>
-              <dd class="card-text" id=author name=author><%= "Автор: #{book.author}" %></dd>
-              <dd class="card-text" id=name name=name><%= "Название: #{book.name}" %></dd>
-              <dd class="card-text" id=genre name=genre><%= "Жанр: #{book.genre}"%></dd>
-              <dd class="card-text" id=price name=price><%= "Цена: #{book.price}"%></dd>
-              <dd class="card-text" id=count name=count><%= "Количество: #{book.count}"%></dd>
-              <br />
-              </dl>
-          </li>
-        <% end %>
-      </ol>
-    </div>
-  </div>
+  <a href="#" class="list-group-item list-group-item-action">Оплатить</a>
 </div>

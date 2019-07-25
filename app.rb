@@ -75,7 +75,8 @@ post '/search' do
 end
 
 get '/shoplist' do
-  @book_list = settings.book_list
+  # @book_list = settings.book_list
+  @shoplist_base = settings.shoplist_base
   erb :shoplist
 end
 
@@ -99,6 +100,16 @@ get '/new_shoplist' do
   erb :new_shoplist
 end
 
+post '/new_shoplist' do
+  # puts settings.shoplist.empty?
+  settings.shoplist.each do |book|
+    settings.book_list.remove_book(book)
+    # puts settings.book_list
+  end
+  settings.shoplist_base.new_list(settings.shoplist)
+  redirect('/shoplist')
+end
+
 get '/add_new_book_shoplist' do
   @book_list = settings.book_list
   erb :add_new_book_shoplist
@@ -109,16 +120,19 @@ post '/add_new_book_shoplist' do
   @errors = 'Число должно быть больше 0 и меньше максимального номера книги'
   puts params['index'].to_i
   if params['index'].to_i >= 1 && params['index'].to_i <= settings.book_list.size
-    settings.shoplist.add_book(settings.book_list.at(params['index'].to_i))
-    settings.shoplist.total += settings.book_list.at(params['index'].to_i).price
+    # settings.shoplist.total += (settings.book_list.at(params['index'].to_i)).price
+    puts settings.book_list.at(params['index'].to_i - 1)
+    settings.shoplist.add(settings.book_list.at(params['index'].to_i - 1))
+    # settings.book_list.remove_book_at(params['index'].to_i)
+    # puts settings.shoplist
     redirect('/new_shoplist')
   else
     erb :add_new_book_shoplist
   end
 end
 
-post '/end' do
-  shoplist.each do |book|
-    settings.book_list.remove_book()
-  end
+get '/show_shoplist' do
+  @shoplist = settings.shoplist
+  @total = settings.shoplist.total
+  erb :show_shoplist
 end

@@ -48,8 +48,6 @@ module BooksCommands
 
   def self.percent(books_list, value)
     copies = copies_number(books_list)
-    puts value
-    puts copies
     res = (copies / value).to_f * 100.0
     res.to_i
   end

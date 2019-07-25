@@ -13,4 +13,9 @@ class Stationery
   def equal?(other)
     @name == other.name.downcase && @price == other.price
   end
+
+  def to_s
+    str = "Название: «#{@name}»\nЦена: #{@price}\n"
+    str
+  end
 end

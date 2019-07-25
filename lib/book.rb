@@ -22,4 +22,10 @@ class Book
     @errors[:space] = 'Заполните это поле' if author.empty? || name.empty? || genre.empty?
     @errors[:number_format] = 'Введите положительное число' if @price <= 0
   end
+
+  def to_s
+    str = "Автор: «#{@author}»\nНазвание: «#{@name}»
+Жанр: «#{@genre}»\nЦена: #{@price}\n"
+    str
+  end
 end
