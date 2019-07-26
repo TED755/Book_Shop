@@ -11,7 +11,7 @@ class ShopListsBase
     @lists.push(list)
   end
 
-  def remove_ist; end
+  def remove_list; end
 
   def each
     @lists.each { |el| yield el }

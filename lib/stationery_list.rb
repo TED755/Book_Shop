@@ -16,17 +16,34 @@ class StationeryList
     @stationery_list.each { |stat| yield(stat) }
   end
 
+  def each_with_index
+    @stationery_list.each_with_index { |stat, index| yield(stat, index) }
+  end
+
+  def at(index)
+    @stationery_list.at(index)
+  end
+
   def size
     @stationery_list.size
   end
 
-  def consist?(new_stat)
+  def include?(new_stat)
     @stationery_list.each do |stat|
-      if stat.equal?(new_stat)
-        stat.count += 1
-        return true
-      end
+      return true if stat.equal?(new_stat)
     end
     false
+  end
+
+  def remove_stationery_at(index)
+    if @stationery_list.at(index.to_i - 1).count == 1
+      @stationery_list.delete_at(index.to_i - 1)
+    else
+      @stationery_list.at(index.to_i - 1).count -= 1
+    end
+  end
+
+  def remove_stationery(stat)
+    @stationery_list.delete(stat)
   end
 end

@@ -1,0 +1,27 @@
+<form method="post">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h2>Выберите интересующую вас книгу и введите ее индекс</h2>
+        <ol>
+          <% @stationery_list.each do |stat| %>
+            <li>
+              <dl>
+                <dd class="card-text" id=name name=name><%= "Название: #{stat.name}" %></dd>
+                <dd class="card-text" id=price name=price><%= "Цена: #{stat.price}"%></dd>
+                <dd class="card-text" id=count name=count><%= "Количество: #{stat.count}"%></dd>
+                <br />
+              </dl>
+            </li>
+          <% end %>
+        </ol>
+        <input type="number" class="form-control" id="index" name="index" placeholder="Введите номер">
+        <% if @errors %>
+          <%= @errors%>
+        <% end %>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Добавить товар в список</button>
+    </div>  
+  </div> 
+</form>

@@ -1,0 +1,24 @@
+<h2>Добавление нового канцелярского товара</h2>
+<form method="post">
+  <div class="form-row">
+    <div class="form-group col-md-3">
+      <label for="name">Название</label>
+      <input type="text" class="form-control" id="name" name="name" placeholder="Название">
+      <% if @errors %>
+        <%= @errors[:space] %>
+      <% end %>
+    </div>
+    <div class="form-group ">
+    <label for="price">Цена</label>
+    <input type="number" class="form-control" id="price" name="price" placeholder="15">
+    <% if @errors %>
+      <%= @errors[:number_format] %>
+    <% end %>
+    </div>
+  </div>
+ 
+  <button type="add_book" class="btn btn-primary">Добавить товар</button>
+</form>
+<% if @contain %>
+<%= @contain %>
+<% end %>

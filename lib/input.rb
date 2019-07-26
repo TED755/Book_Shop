@@ -33,7 +33,13 @@ module Input
     all_info = Psych.load_file(FILE_STAT)
     all_info.each do |stat|
       new_stat = create_new_stationery(stat)
-      stationery_list.add_stationery(new_stat) if !stationery_list.consist?(new_stat)
+      #stationery_list.add_stationery(new_stat) if !stationery_list.consist?(new_stat)
+      if stationery_list.include?(new_stat)
+        stationery_list.each_with_index do |stat, index|
+          stationery_list.at(index).count += 1 if stat.equal?(new_stat)
+        end
+      else stationery_list.add_stationery(new_stat)
+      end
     end
     stationery_list
   end
