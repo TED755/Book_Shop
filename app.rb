@@ -23,27 +23,6 @@ get '/' do
   erb :main
 end
 
-get '/new_book' do
-  erb :new_book
-end
-
-post '/new_book' do
-  new_book = Book.new(params['author'], params['name'], params['genre'], params['price'])
-  new_book.check
-  @errors = new_book.errors
-  if @errors.empty?
-    if settings.book_list.include?(new_book)
-      settings.book_list.each_with_index do |book, index|
-        settings.book_list.at(index).count += 1 if book.equal?(new_book)
-      end
-    else settings.book_list.add_book(new_book)
-    end
-    redirect('/')
-  else
-    erb :new_book
-  end
-end
-
 get '/statistic' do
   @errors = {}
   @errors[:void_list] = 'Ничего нет в базе' if settings.book_list.empty?
@@ -74,10 +53,29 @@ post '/search' do
   end
 end
 
-get '/shoplist' do
-  # @book_list = settings.book_list
-  @shoplist_base = settings.shoplist_base
-  erb :shoplist
+get '/add_remove' do
+  erb :add_remove
+end
+
+get '/new_book' do
+  erb :new_book
+end
+
+post '/new_book' do
+  new_book = Book.new(params['author'], params['name'], params['genre'], params['price'])
+  new_book.check
+  @errors = new_book.errors
+  if @errors.empty?
+    if settings.book_list.include?(new_book)
+      settings.book_list.each_with_index do |book, index|
+        settings.book_list.at(index).count += 1 if book.equal?(new_book)
+      end
+    else settings.book_list.add_book(new_book)
+    end
+    redirect('/')
+  else
+    erb :new_book
+  end
 end
 
 get '/remove_book' do
@@ -94,47 +92,6 @@ post '/remove_book' do
   else
     erb :remove_book
   end
-end
-
-get '/new_shoplist' do
-  erb :new_shoplist
-end
-
-post '/new_shoplist' do
-  settings.shoplist.each do |book|
-    settings.book_list.remove_book(book)
-  end
-  settings.shoplist.each do |stat|
-    settings.stationery_list.remove_stationery(stat)
-  end
-  settings.shoplist_base.new_list(settings.shoplist)
-  redirect('/shoplist')
-end
-
-get '/add_new_book_shoplist' do
-  @book_list = settings.book_list
-  erb :add_new_book_shoplist
-end
-
-post '/add_new_book_shoplist' do
-  @book_list = settings.book_list
-  @errors = 'Число должно быть больше 0 и меньше максимального номера книги'
-  if params['index'].to_i >= 1 && params['index'].to_i <= settings.book_list.size
-    settings.shoplist.add(settings.book_list.at(params['index'].to_i - 1))
-    redirect('/new_shoplist')
-  else
-    erb :add_new_book_shoplist
-  end
-end
-
-get '/show_shoplist' do
-  @shoplist = settings.shoplist
-  @total = settings.shoplist.total
-  erb :show_shoplist
-end
-
-get '/add_remove' do
-  erb :add_remove
 end
 
 get '/new_stationery' do
@@ -163,7 +120,7 @@ get '/remove_stationery' do
   erb :remove_stationery
 end
 
-post '/remove_stationery' do 
+post '/remove_stationery' do
   @stationery_list = settings.stationery_list
   @errors = 'Число должно быть больше 0 и меньше максимального номера книги'
   if params['index'].to_i >= 1 && params['index'].to_i <= settings.stationery_list.size
@@ -174,18 +131,67 @@ post '/remove_stationery' do
   end
 end
 
-get '/add_new_stat_shoplist' do
-  @stationery_list = settings.stationery_list
-  erb :add_new_stat_shoplist
+get '/shoplist' do
+  @shoplist_base = settings.shoplist_base
+  erb :shoplist
 end
 
-post '/add_new_stat_shoplist' do
-  @stationery_list = settings.stationery_list
+get '/add_to_shoplist' do
+  erb :add_to_shoplist
+end
+
+get '/add_book_to_shoplist' do
+  @book_list = settings.book_list
+  erb :add_book_to_shoplist
+end
+
+post '/add_book_to_shoplist' do
+  @book_list = settings.book_list
   @errors = 'Число должно быть больше 0 и меньше максимального номера книги'
+  if params['index'].to_i >= 1 && params['index'].to_i <= settings.book_list.size
+    settings.shoplist.add(settings.book_list.at(params['index'].to_i - 1))
+    settings.book_list.remove_book(settings.shoplist.last) if !settings.book_list.empty?
+    redirect('/shoplist')
+  else
+    erb :add_book_to_shoplist
+  end
+end
+
+get '/add_stat_to_shoplist' do
+  @stationery_list = settings.stationery_list
+  erb :add_stat_to_shoplist
+end
+
+post '/add_stat_to_shoplist' do
+  @stationery_list = settings.stationery_list
+  @errors = 'Число должно быть больше 0 и меньше максимального номера канц товара'
   if params['index'].to_i >= 1 && params['index'].to_i <= settings.stationery_list.size
     settings.shoplist.add(settings.stationery_list.at(params['index'].to_i - 1))
-    redirect('/new_shoplist')
+    settings.stationery_list.remove_stationery(settings.shoplist.last) if !settings.stationery_list.empty?
+    redirect('/shoplist')
   else
-    erb :add_new_stat_shoplist
+    erb :add_stat_to_shoplist
   end
+end
+
+get '/delete_from_shoplist' do
+  erb :delete_from_shoplist
+end
+
+get '/delete_book_from_shoplist' do
+  erb :delete_book_from_shoplist
+end
+
+get '/delete_stat_from_shoplist' do
+  erb :delete_stat_from_shoplist
+end
+
+get '/show_shoplist' do
+  @shoplist = settings.shoplist
+  @total = settings.shoplist.total
+  erb :show_shoplist
+end
+
+post '/show_shoplist' do
+  redirect('/shoplist')
 end

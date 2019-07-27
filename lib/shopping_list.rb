@@ -16,7 +16,19 @@ class ShoppingList
   end
 
   def remove_at(index)
-    @list.delete_at(index)
+    if @lists.at(index.to_i - 1).count == 1
+      @lists.delete_at(index.to_i - 1)
+    else
+      @lists.at(index.to_i - 1).count -= 1
+    end
+  end
+
+  def remove(stat)
+    if stat.count == 1
+      @lists.delete(stat)
+    else
+      @lists.at(@lists.index(stat)).count -= 1
+    end
   end
 
   def each
@@ -25,5 +37,9 @@ class ShoppingList
 
   def empty?
     @list.empty?
+  end
+
+  def last
+    @list.last
   end
 end

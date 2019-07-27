@@ -6,7 +6,7 @@ require_relative 'books_list'
 require_relative 'stationery'
 require_relative 'stationery_list'
 
-# This class is responsible for reading from a file
+# This module reads from a file
 module Input
   FILE_BOOK = File.expand_path('../data/books.yaml', __dir__)
   FILE_STAT = File.expand_path('../data/stationeries.yaml', __dir__)
@@ -31,9 +31,8 @@ module Input
     stationery_list = StationeryList.new
     exit unless File.exist?(FILE_STAT)
     all_info = Psych.load_file(FILE_STAT)
-    all_info.each do |stat|
-      new_stat = create_new_stationery(stat)
-      #stationery_list.add_stationery(new_stat) if !stationery_list.consist?(new_stat)
+    all_info.each do |stationeries|
+      new_stat = create_new_stationery(stationeries)
       if stationery_list.include?(new_stat)
         stationery_list.each_with_index do |stat, index|
           stationery_list.at(index).count += 1 if stat.equal?(new_stat)

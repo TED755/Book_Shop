@@ -32,7 +32,7 @@ class BooksList
   end
 
   def at(index)
-    @books_list.at(index) 
+    @books_list.at(index)
   end
 
   def size
@@ -48,6 +48,7 @@ class BooksList
   end
 
   def remove_book(book)
-    @books_list.delete(book)
+    @books_list.at(@books_list.index(book).to_i).count -= 1
+    @books_list.delete(book) if @books_list.at(@books_list.index(book).to_i).count < 1
   end
 end

@@ -44,6 +44,14 @@ class StationeryList
   end
 
   def remove_stationery(stat)
-    @stationery_list.delete(stat)
+    if stat.count == 1
+      @stationery_list.delete(stat)
+    else
+      @stationery_list.at(@stationery_list.index(stat).to_i).count -= 1
+    end
+  end
+
+  def empty?
+    @stationery_list.empty?
   end
 end
