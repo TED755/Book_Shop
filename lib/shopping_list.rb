@@ -11,24 +11,18 @@ class ShoppingList
   end
 
   def add(new_pos)
-    @list.push(new_pos)
     @total += new_pos.price
+    @list.push(new_pos)
   end
 
   def remove_at(index)
-    if @lists.at(index.to_i - 1).count == 1
-      @lists.delete_at(index.to_i - 1)
-    else
-      @lists.at(index.to_i - 1).count -= 1
-    end
+    @total -= @list.at(index).price
+    @list.delete_at(index.to_i)
   end
 
-  def remove(stat)
-    if stat.count == 1
-      @lists.delete(stat)
-    else
-      @lists.at(@lists.index(stat)).count -= 1
-    end
+  def remove(pos)
+    @total -= pos.price
+    @list.delete(pos)
   end
 
   def each
@@ -41,5 +35,13 @@ class ShoppingList
 
   def last
     @list.last
+  end
+
+  def at(index)
+    @list.at(index)
+  end
+
+  def size
+    @list.size
   end
 end

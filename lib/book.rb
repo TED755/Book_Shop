@@ -1,15 +1,16 @@
 # frozen_string_literal: true
 
-# 1
+# This class describes book
 class Book
-  attr_accessor :author, :name, :genre, :price, :count, :errors
+  attr_accessor :author, :name, :genre, :price, :count, :errors, :type
 
   def initialize(author, name, genre, price)
     @author = author.to_s
     @name = name.to_s
     @genre = genre.to_s
     @price = price.to_f
-    @count = 1
+    @count = 0
+    @type = 'book'
     @errors = {}
   end
 

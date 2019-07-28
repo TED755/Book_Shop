@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
-# 1
+# This class describes stationery
 class Stationery
-  attr_accessor :name, :price, :count, :errors
+  attr_accessor :name, :price, :count, :errors, :type
 
   def initialize(name, price)
     @name = name.to_s
     @price = price.to_f
-    @count = 1
+    @count = 0
+    @type = 'stationery'
     @errors = {}
   end
 

@@ -6,7 +6,7 @@ require_relative 'books_list'
 require_relative 'stationery'
 require_relative 'stationery_list'
 
-# This module reads from a file
+# This module reads data from a file
 module Input
   FILE_BOOK = File.expand_path('../data/books.yaml', __dir__)
   FILE_STAT = File.expand_path('../data/stationeries.yaml', __dir__)
@@ -16,13 +16,7 @@ module Input
     exit unless File.exist?(FILE_BOOK)
     all_info = Psych.load_file(FILE_BOOK)
     all_info.each do |books|
-      new_book = create_new_book(books)
-      if books_list.include?(new_book)
-        books_list.each_with_index do |book, index|
-          books_list.at(index).count += 1 if book.equal?(new_book)
-        end
-      else books_list.add_book(new_book)
-      end
+      books_list.add_book(create_new_book(books))
     end
     books_list
   end
@@ -32,13 +26,7 @@ module Input
     exit unless File.exist?(FILE_STAT)
     all_info = Psych.load_file(FILE_STAT)
     all_info.each do |stationeries|
-      new_stat = create_new_stationery(stationeries)
-      if stationery_list.include?(new_stat)
-        stationery_list.each_with_index do |stat, index|
-          stationery_list.at(index).count += 1 if stat.equal?(new_stat)
-        end
-      else stationery_list.add_stationery(new_stat)
-      end
+      stationery_list.add_stationery(create_new_stationery(stationeries))
     end
     stationery_list
   end

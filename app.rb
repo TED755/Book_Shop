@@ -175,15 +175,30 @@ post '/add_stat_to_shoplist' do
 end
 
 get '/delete_from_shoplist' do
+  @goods = settings.shoplist
   erb :delete_from_shoplist
 end
 
-get '/delete_book_from_shoplist' do
-  erb :delete_book_from_shoplist
-end
-
-get '/delete_stat_from_shoplist' do
-  erb :delete_stat_from_shoplist
+post '/delete_from_shoplist' do
+  @goods = settings.shoplist
+  @errors = 'Число должно быть больше 0 и меньше максимального номера товара'
+  if params['index'].to_i >= 1 && params['index'].to_i <= settings.shoplist.size
+    good = settings.shoplist.at(params['index'].to_i - 1)
+    case good.type
+    when 'book'
+      settings.shoplist.remove_at(params['index'].to_i - 1)
+      settings.book_list.add_book(good)
+      redirect('/shoplist')
+    when 'stationery'
+      settings.shoplist.remove_at(params['index'].to_i - 1)
+      settings.stationery_list.add_stationery(good)
+      redirect('/shoplist')
+    else
+      erb :delete_from_shoplist
+    end
+  else
+    erb :delete_from_shoplist
+  end
 end
 
 get '/show_shoplist' do

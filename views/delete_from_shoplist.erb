@@ -1,7 +1,20 @@
-<h2>Что бы вы хотели удалить?</h2>
 <form method="post">
-  <div class="list-group">
-    <a href="/delete_book_from_shoplist" class="list-group-item list-group-item-action">Книгу</a>
-    <a href="/delete_stat_from_shoplist" class="list-group-item list-group-item-action">Канцелярскую принадлежность</a>
-  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h2>Выберите товар, который хотите удалить, и введите его индекс</h2>
+        <ol>
+          <% @goods.each do |pos| %>
+            <li><%= pos%></li>
+          <% end %>
+        </ol>
+        <input type="number" class="form-control" id="index" name="index" placeholder="Введите номер">
+        <% if @errors %>
+          <%= @errors%>
+        <% end %>
+        </div>
+      </div>
+      <button type="delete" class="btn btn-primary">Удалить книгу из списка</button>
+    </div>  
+  </div> 
 </form>

@@ -2,14 +2,21 @@
 
 require_relative 'stationery'
 
-# 1
+# This class keeps information about books list
 class StationeryList
   def initialize
     @stationery_list = []
   end
 
-  def add_stationery(stat)
-    @stationery_list.push(stat)
+  def add_stationery(new_stat)
+    if include?(new_stat)
+      @stationery_list.each_with_index do |stat, index|
+        @stationery_list.at(index).count += 1 if stat.equal?(new_stat)
+      end
+    else
+      @stationery_list.push(new_stat)
+      new_stat.count = 1
+    end
   end
 
   def each

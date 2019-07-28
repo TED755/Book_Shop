@@ -2,7 +2,7 @@
 
 require_relative 'book'
 
-# 2
+# This class keeps information about books list
 class BooksList
   def initialize
     @books_list = []
@@ -12,8 +12,15 @@ class BooksList
     @books_list.empty?
   end
 
-  def add_book(book)
-    @books_list.push(book)
+  def add_book(new_book)
+    if include?(new_book)
+      @books_list.each_with_index do |book, index|
+        @books_list.at(index).count += 1 if book.equal?(new_book)
+      end
+    else
+      new_book.count = 1
+      @books_list.push(new_book)
+    end
   end
 
   def each
