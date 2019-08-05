@@ -1,0 +1,19 @@
+<form method="post">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+      <h2>Оплатить список</h2>
+        <ol>
+          <% @shoplist.each do |pos| %>
+            <li><%= pos%></li>        
+          <% end %>
+          <h4>Общая стоимость: <%= @total%></h4>
+        </ol>
+        <button type="pay" class="btn btn-primary">Оплатить</button>
+        <% if @errors %>
+        <%= @errors %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</form>

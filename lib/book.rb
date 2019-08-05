@@ -26,7 +26,7 @@ class Book
 
   def to_s
     str = "Автор: «#{@author}»\nНазвание: «#{@name}»
-Жанр: «#{@genre}»\nЦена: #{@price}\n"
+Жанр: «#{@genre}»\nЦена: #{@price}\nКоличество: #{@count}"
     str
   end
 end

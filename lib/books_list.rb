@@ -58,4 +58,13 @@ class BooksList
     @books_list.at(@books_list.index(book).to_i).count -= 1
     @books_list.delete(book) if @books_list.at(@books_list.index(book).to_i).count < 1
   end
+
+  def index(pos)
+    @books_list.each_with_index do |this_pos, index|
+      if pos.type == this_pos.type
+        return index if pos.equal?(this_pos)
+      end
+    end
+    nil
+  end
 end

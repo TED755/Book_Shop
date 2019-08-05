@@ -150,7 +150,6 @@ post '/add_book_to_shoplist' do
   @errors = 'Число должно быть больше 0 и меньше максимального номера книги'
   if params['index'].to_i >= 1 && params['index'].to_i <= settings.book_list.size
     settings.shoplist.add(settings.book_list.at(params['index'].to_i - 1))
-    settings.book_list.remove_book(settings.shoplist.last) if !settings.book_list.empty?
     redirect('/shoplist')
   else
     erb :add_book_to_shoplist
@@ -167,7 +166,6 @@ post '/add_stat_to_shoplist' do
   @errors = 'Число должно быть больше 0 и меньше максимального номера канц товара'
   if params['index'].to_i >= 1 && params['index'].to_i <= settings.stationery_list.size
     settings.shoplist.add(settings.stationery_list.at(params['index'].to_i - 1))
-    settings.stationery_list.remove_stationery(settings.shoplist.last) if !settings.stationery_list.empty?
     redirect('/shoplist')
   else
     erb :add_stat_to_shoplist
@@ -187,11 +185,9 @@ post '/delete_from_shoplist' do
     case good.type
     when 'book'
       settings.shoplist.remove_at(params['index'].to_i - 1)
-      settings.book_list.add_book(good)
       redirect('/shoplist')
     when 'stationery'
       settings.shoplist.remove_at(params['index'].to_i - 1)
-      settings.stationery_list.add_stationery(good)
       redirect('/shoplist')
     else
       erb :delete_from_shoplist
@@ -209,4 +205,52 @@ end
 
 post '/show_shoplist' do
   redirect('/shoplist')
+end
+
+get '/pay_shoplist' do
+  @shoplist = settings.shoplist
+  @total = @shoplist.total
+  erb :pay_shoplist
+end
+
+post '/pay_shoplist' do
+  @shoplist = settings.shoplist
+  @books = settings.book_list
+  @stationerires = settings.stationery_list
+  @total = @shoplist.total
+  checker = @shoplist.check_count(@books, @stationerires)
+  @errors = 'Список пуст' if @shoplist.empty?
+  @errors = "Этого товара не хватает в магазине для совершения покупки: #{checker}" unless checker.nil?
+  if @errors.nil?
+    # checker = @shoplist.check_count(@books, @stationerires)
+    # if !checker.nil?
+    #  @errors = "Этого товара не хватает в магазине для совершения покупки :#{checker}"
+    # redirect("/pay_shoplist")
+    #  erb :pay_shoplist
+    #  break
+    redirect('/')
+    # end
+    # @shoplist.each do |good|
+    #  case good.type
+    #  when 'book'
+    #    if good.count > @books.at(@books.index(good).to_i).count
+    # puts "no any #{good}" unless good.count <= @books.at(@books.index(good).to_i).count
+    # puts 'this good'
+    # @errors = "Не хватает такого товара: #{good}"
+    #      erb :pay_shoplist
+    #    end
+    #  when 'stationery'
+    #    puts 'und ich habe hier gegangen'
+    #    if good.count <= @stationerires.at(@stationerires.index(good).to_i).count
+    #      puts "no any #{good}" unless good.count <= @stationerires.at(@stationerires.index(good).to_i).count
+    #      @errors = "Не хватает такого товара: #{good}"
+    #      erb :pay_shoplist
+    #    end
+    #  else
+    #  end
+    # end
+    puts @errors
+  else
+    erb :pay_shoplist
+  end
 end

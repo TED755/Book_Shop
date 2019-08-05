@@ -54,11 +54,21 @@ class StationeryList
     if stat.count == 1
       @stationery_list.delete(stat)
     else
+      puts @stationery_list.at(@stationery_list.index(stat).to_i).count
       @stationery_list.at(@stationery_list.index(stat).to_i).count -= 1
     end
   end
 
   def empty?
     @stationery_list.empty?
+  end
+
+  def index(pos)
+    @stationery_list.each_with_index do |this_pos, index|
+      if pos.type == this_pos.type
+        return index if pos.equal?(this_pos)
+      end
+    end
+    nil
   end
 end

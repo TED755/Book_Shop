@@ -22,7 +22,7 @@ class Stationery
   end
 
   def to_s
-    str = "Название: «#{@name}»\nЦена: #{@price}\n"
+    str = "Название: «#{@name}»\nЦена: #{@price}\nКоличество: #{@count}"
     str
   end
 end
