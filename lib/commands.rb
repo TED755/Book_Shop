@@ -2,8 +2,10 @@
 
 require_relative 'book'
 require_relative 'books_list'
+require_relative 'stationery_list'
+require_relative 'shopping_list'
 # 1
-module BooksCommands
+module Commands
   def self.find_by_name(list, name)
     suitable_books = BooksList.new
     list.each do |book|
@@ -75,5 +77,29 @@ module BooksCommands
       genre_list << book.genre if !genre_list.include?(book.genre)
     end
     genre_list
+  end
+
+  def self.remove_goods(books, stats, shoplist)
+    shoplist.each do |pos|
+      i = 0
+      case pos.type
+      when 'book'
+        while i < pos.count
+          books.remove_book(pos)
+          i += 1
+        end
+      when 'stationery'
+        while i < pos.count
+          stats.remove_stationery(pos)
+          i += 1
+        end
+      end
+    end
+  end
+
+  def self.save_file(file_name, shoplist)
+    file_name = 'default' if file_name.empty?
+    file_name += '.txt'
+    File.open(file_name, 'w'){|file| file.write shoplist.to_s}
   end
 end

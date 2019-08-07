@@ -55,8 +55,8 @@ class BooksList
   end
 
   def remove_book(book)
-    @books_list.at(@books_list.index(book).to_i).count -= 1
-    @books_list.delete(book) if @books_list.at(@books_list.index(book).to_i).count < 1
+    @books_list.at(index(book).to_i).count -= 1
+    @books_list.delete_at(index(book)) if @books_list.at(index(book).to_i).count.zero?
   end
 
   def index(pos)
@@ -66,5 +66,12 @@ class BooksList
       end
     end
     nil
+  end
+
+  def clear(shoplist)
+    shoplist.each do |pos|
+      i = 0
+      @books_list.delete(pos) while i < pos.count
+    end
   end
 end

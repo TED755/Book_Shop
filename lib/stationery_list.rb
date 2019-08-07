@@ -51,12 +51,8 @@ class StationeryList
   end
 
   def remove_stationery(stat)
-    if stat.count == 1
-      @stationery_list.delete(stat)
-    else
-      puts @stationery_list.at(@stationery_list.index(stat).to_i).count
-      @stationery_list.at(@stationery_list.index(stat).to_i).count -= 1
-    end
+    @stationery_list.at(index(stat).to_i).count -= 1
+    @stationery_list.delete_at(index(stat)) if @stationery_list.at(index(stat).to_i).count.zero?
   end
 
   def empty?

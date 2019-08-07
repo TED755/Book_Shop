@@ -28,7 +28,6 @@ class ShoppingList
     else
       @list.at(index.to_i).count -= 1
     end
-    # @list.delete_at(index.to_i)
   end
 
   def remove(pos)
@@ -58,7 +57,7 @@ class ShoppingList
 
   def clear
     @list.each do |good|
-      @list.remove(good)
+      @list.delete(good)
     end
     @total = 0.0
   end
@@ -91,5 +90,14 @@ class ShoppingList
       end
     end
     nil
+  end
+
+  def to_s
+    str = ""
+    @list.each do |pos|
+      str += "- #{pos}\n"
+    end
+    str += "Итого: {@total}\n"
+    str
   end
 end

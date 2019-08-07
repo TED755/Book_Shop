@@ -6,7 +6,7 @@ require_relative 'lib/books_list'
 require_relative 'lib/stationery'
 require_relative 'lib/stationery_list'
 require_relative 'lib/input'
-require_relative 'lib/books_commands'
+require_relative 'lib/commands'
 require_relative 'lib/shopping_list'
 require_relative 'lib/shoplists_base'
 
@@ -26,8 +26,8 @@ end
 get '/statistic' do
   @errors = {}
   @errors[:void_list] = 'Ничего нет в базе' if settings.book_list.empty?
-  @genre_list = BooksCommands.get_uniq(settings.book_list)
-  @books_statistic = BooksCommands.statistic(settings.book_list, settings.stationery_list, @genre_list)
+  @genre_list = Commands.get_uniq(settings.book_list)
+  @books_statistic = Commands.statistic(settings.book_list, settings.stationery_list, @genre_list)
   erb :statistic
 end
 
@@ -40,11 +40,11 @@ post '/search' do
   @errors[:space] = 'Заполните это поле' if params['value'].empty?
   if @errors.empty?
     if params['search'].casecmp('Названию').zero?
-      @search_result = BooksCommands.find_by_name(settings.book_list, params['value'])
+      @search_result = Commands.find_by_name(settings.book_list, params['value'])
       @errors[:not_founded] = 'Ничего не найдено' if @search_result.empty?
       erb :show_name_search_res
     else
-      @search_result = BooksCommands.find_by_genre(settings.book_list, params['value'])
+      @search_result = Commands.find_by_genre(settings.book_list, params['value'])
       @errors[:not_founded] = 'Ничего не найдено' if @search_result.empty?
       erb :show_genre_search_res
     end
@@ -220,36 +220,12 @@ post '/pay_shoplist' do
   @total = @shoplist.total
   checker = @shoplist.check_count(@books, @stationerires)
   @errors = 'Список пуст' if @shoplist.empty?
-  @errors = "Этого товара не хватает в магазине для совершения покупки: #{checker}" unless checker.nil?
+  @errors = "Товара (#{@shoplist.index(checker) + 1}) не хватает в магазине для совершения покупки" unless checker.nil?
   if @errors.nil?
-    # checker = @shoplist.check_count(@books, @stationerires)
-    # if !checker.nil?
-    #  @errors = "Этого товара не хватает в магазине для совершения покупки :#{checker}"
-    # redirect("/pay_shoplist")
-    #  erb :pay_shoplist
-    #  break
+    Commands.save_file(params['file'], @shoplist)
+    Commands.remove_goods(@books, @stationerires, @shoplist)
+    settings.shoplist.clear
     redirect('/')
-    # end
-    # @shoplist.each do |good|
-    #  case good.type
-    #  when 'book'
-    #    if good.count > @books.at(@books.index(good).to_i).count
-    # puts "no any #{good}" unless good.count <= @books.at(@books.index(good).to_i).count
-    # puts 'this good'
-    # @errors = "Не хватает такого товара: #{good}"
-    #      erb :pay_shoplist
-    #    end
-    #  when 'stationery'
-    #    puts 'und ich habe hier gegangen'
-    #    if good.count <= @stationerires.at(@stationerires.index(good).to_i).count
-    #      puts "no any #{good}" unless good.count <= @stationerires.at(@stationerires.index(good).to_i).count
-    #      @errors = "Не хватает такого товара: #{good}"
-    #      erb :pay_shoplist
-    #    end
-    #  else
-    #  end
-    # end
-    puts @errors
   else
     erb :pay_shoplist
   end

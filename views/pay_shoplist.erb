@@ -1,6 +1,6 @@
 <form method="post">
   <div class="container">
-    <div class="row">
+    <div class="row-md">
       <div class="col">
       <h2>Оплатить список</h2>
         <ol>
@@ -9,6 +9,8 @@
           <% end %>
           <h4>Общая стоимость: <%= @total%></h4>
         </ol>
+        <label for="file">Имя файла</label>
+        <input type="text" class="form-control" id="file" name="file" placeholder="Имя файла">
         <button type="pay" class="btn btn-primary">Оплатить</button>
         <% if @errors %>
         <%= @errors %>
