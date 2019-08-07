@@ -97,7 +97,7 @@ class ShoppingList
     @list.each do |pos|
       str += "- #{pos}\n"
     end
-    str += "Итого: {@total}\n"
+    str += "Итого: #{@total}\n"
     str
   end
 end
