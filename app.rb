@@ -6,7 +6,7 @@ require_relative 'lib/books_list'
 require_relative 'lib/stationery'
 require_relative 'lib/stationery_list'
 require_relative 'lib/input'
-require_relative 'lib/books_commands'
+require_relative 'lib/commands'
 require_relative 'lib/shopping_list'
 require_relative 'lib/shoplists_base'
 
@@ -26,8 +26,8 @@ end
 get '/statistic' do
   @errors = {}
   @errors[:void_list] = 'Ничего нет в базе' if settings.book_list.empty?
-  @genre_list = BooksCommands.get_uniq(settings.book_list)
-  @books_statistic = BooksCommands.statistic(settings.book_list, settings.stationery_list, @genre_list)
+  @genre_list = Commands.get_uniq(settings.book_list)
+  @books_statistic = Commands.statistic(settings.book_list, settings.stationery_list, @genre_list)
   erb :statistic
 end
 
@@ -40,11 +40,11 @@ post '/search' do
   @errors[:space] = 'Заполните это поле' if params['value'].empty?
   if @errors.empty?
     if params['search'].casecmp('Названию').zero?
-      @search_result = BooksCommands.find_by_name(settings.book_list, params['value'])
+      @search_result = Commands.find_by_name(settings.book_list, params['value'])
       @errors[:not_founded] = 'Ничего не найдено' if @search_result.empty?
       erb :show_name_search_res
     else
-      @search_result = BooksCommands.find_by_genre(settings.book_list, params['value'])
+      @search_result = Commands.find_by_genre(settings.book_list, params['value'])
       @errors[:not_founded] = 'Ничего не найдено' if @search_result.empty?
       erb :show_genre_search_res
     end
@@ -150,7 +150,6 @@ post '/add_book_to_shoplist' do
   @errors = 'Число должно быть больше 0 и меньше максимального номера книги'
   if params['index'].to_i >= 1 && params['index'].to_i <= settings.book_list.size
     settings.shoplist.add(settings.book_list.at(params['index'].to_i - 1))
-    settings.book_list.remove_book(settings.shoplist.last) if !settings.book_list.empty?
     redirect('/shoplist')
   else
     erb :add_book_to_shoplist
@@ -167,7 +166,6 @@ post '/add_stat_to_shoplist' do
   @errors = 'Число должно быть больше 0 и меньше максимального номера канц товара'
   if params['index'].to_i >= 1 && params['index'].to_i <= settings.stationery_list.size
     settings.shoplist.add(settings.stationery_list.at(params['index'].to_i - 1))
-    settings.stationery_list.remove_stationery(settings.shoplist.last) if !settings.stationery_list.empty?
     redirect('/shoplist')
   else
     erb :add_stat_to_shoplist
@@ -187,11 +185,9 @@ post '/delete_from_shoplist' do
     case good.type
     when 'book'
       settings.shoplist.remove_at(params['index'].to_i - 1)
-      settings.book_list.add_book(good)
       redirect('/shoplist')
     when 'stationery'
       settings.shoplist.remove_at(params['index'].to_i - 1)
-      settings.stationery_list.add_stationery(good)
       redirect('/shoplist')
     else
       erb :delete_from_shoplist
@@ -209,4 +205,28 @@ end
 
 post '/show_shoplist' do
   redirect('/shoplist')
+end
+
+get '/pay_shoplist' do
+  @shoplist = settings.shoplist
+  @total = @shoplist.total
+  erb :pay_shoplist
+end
+
+post '/pay_shoplist' do
+  @shoplist = settings.shoplist
+  @books = settings.book_list
+  @stationerires = settings.stationery_list
+  @total = @shoplist.total
+  checker = @shoplist.check_count(@books, @stationerires)
+  @errors = 'Список пуст' if @shoplist.empty?
+  @errors = "Товара (#{@shoplist.index(checker) + 1}) не хватает в магазине для совершения покупки" unless checker.nil?
+  if @errors.nil?
+    Commands.save_file(params['file'], @shoplist)
+    Commands.remove_goods(@books, @stationerires, @shoplist)
+    settings.shoplist.clear
+    redirect('/')
+  else
+    erb :pay_shoplist
+  end
 end
