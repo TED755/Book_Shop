@@ -27,7 +27,7 @@ class ShopListsBase
     @lists.size
   end
 
-  def set_current(index)
+  def change_current(index)
     @current = @lists.at(index)
   end
 

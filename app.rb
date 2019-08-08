@@ -242,7 +242,7 @@ end
 post '/shoplists' do
   list = ShoppingList.new
   settings.shoplist_base.new_list(list)
-  settings.shoplist_base.set_current(settings.shoplist_base.index(list).to_i)
+  settings.shoplist_base.change_current(settings.shoplist_base.index(list).to_i)
   redirect('/shoplist')
 end
 
@@ -254,9 +254,9 @@ post '/choose_shoplist' do
   @errors = 'Число должно быть больше 0 и меньше максимального номера списка'
   if params['index'].to_i >= 1 && params['index'].to_i <= settings.shoplist_base.size
     index = params['index'].to_i
-    settings.shoplist_base.set_current(index - 1)
+    settings.shoplist_base.change_current(index - 1)
     redirect('/shoplist')
-  else 
+  else
     erb :choose_shoplist
   end
 end

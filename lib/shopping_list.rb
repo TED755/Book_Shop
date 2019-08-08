@@ -93,7 +93,7 @@ class ShoppingList
   end
 
   def to_s
-    str = ""
+    str = ''
     @list.each do |pos|
       str += "- #{pos}\n"
     end
@@ -102,10 +102,10 @@ class ShoppingList
   end
 
   def info
-    str = ""
+    str = ''
     @list.each do |pos|
       str += "#{pos}\n"
-      str += "| "
+      str += '| '
     end
     str
   end

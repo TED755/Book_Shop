@@ -100,6 +100,6 @@ module Commands
   def self.save_file(file_name, shoplist)
     file_name = 'default' if file_name.empty?
     file_name += '.txt'
-    File.open(file_name, 'w'){|file| file.write shoplist.to_s}
+    File.open(file_name, 'w') { |file| file.write shoplist.to_s }
   end
 end
