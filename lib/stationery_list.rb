@@ -43,10 +43,10 @@ class StationeryList
   end
 
   def remove_stationery_at(index)
-    if @stationery_list.at(index.to_i - 1).count == 1
-      @stationery_list.delete_at(index.to_i - 1)
+    if @stationery_list.at(index).count == 1
+      @stationery_list.delete_at(index.to_i)
     else
-      @stationery_list.at(index.to_i - 1).count -= 1
+      @stationery_list.at(index).count -= 1
     end
   end
 

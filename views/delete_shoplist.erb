@@ -2,10 +2,13 @@
   <div class="container">
     <div class="row">
       <div class="col">
-        <h2>Выберите товар, который хотите удалить, и введите его индекс</h2>
+        <h2>Выберите список, который хотите удалить, и введите его индекс</h2>
         <ol>
-          <% @goods.each do |pos| %>
-            <li><%= pos%></li>
+          <% @lists.each do |pos| %>
+            <li>
+              <%= pos.info%>
+              Итого:<%= pos.total%>
+            </li>        
           <% end %>
         </ol>
         <input type="number" class="form-control" id="index" name="index" placeholder="Введите номер">
@@ -14,7 +17,7 @@
         <% end %>
         </div>
       </div>
-      <button type="delete" class="btn btn-primary">Удалить из списка</button>
+      <button type="delete" class="btn btn-primary">Удалить список</button>
     </div>  
   </div> 
 </form>

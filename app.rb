@@ -87,7 +87,7 @@ post '/remove_book' do
   @book_list = settings.book_list
   @errors = 'Число должно быть больше 0 и меньше максимального номера книги'
   if params['index'].to_i >= 1 && params['index'].to_i <= settings.book_list.size
-    settings.book_list.remove_book_at(params['index'])
+    settings.book_list.remove_book_at(params['index'].to_i - 1)
     redirect('/')
   else
     erb :remove_book
@@ -124,7 +124,7 @@ post '/remove_stationery' do
   @stationery_list = settings.stationery_list
   @errors = 'Число должно быть больше 0 и меньше максимального номера книги'
   if params['index'].to_i >= 1 && params['index'].to_i <= settings.stationery_list.size
-    settings.stationery_list.remove_stationery_at(params['index'])
+    settings.stationery_list.remove_stationery_at(params['index'].to_i - 1)
     redirect('/')
   else
     erb :remove_stationery
@@ -132,7 +132,10 @@ post '/remove_stationery' do
 end
 
 get '/shoplist' do
-  @shoplist_base = settings.shoplist_base
+  settings.shoplist = settings.shoplist_base.current
+  @number = settings.shoplist_base.index(settings.shoplist).to_i
+  puts @number
+  puts 'nil' if @number.nil?
   erb :shoplist
 end
 
@@ -224,9 +227,61 @@ post '/pay_shoplist' do
   if @errors.nil?
     Commands.save_file(params['file'], @shoplist)
     Commands.remove_goods(@books, @stationerires, @shoplist)
+    settings.shoplist_base.remove_list(settings.shoplist_base.index(settings.shoplist))
     settings.shoplist.clear
     redirect('/')
   else
     erb :pay_shoplist
   end
+end
+
+get '/shoplists' do
+  erb :shoplists
+end
+
+post '/shoplists' do
+  list = ShoppingList.new
+  settings.shoplist_base.new_list(list)
+  settings.shoplist_base.set_current(settings.shoplist_base.index(list).to_i)
+  redirect('/shoplist')
+end
+
+get '/choose_shoplist' do
+  erb :choose_shoplist
+end
+
+post '/choose_shoplist' do
+  @errors = 'Число должно быть больше 0 и меньше максимального номера списка'
+  if params['index'].to_i >= 1 && params['index'].to_i <= settings.shoplist_base.size
+    index = params['index'].to_i
+    settings.shoplist_base.set_current(index - 1)
+    redirect('/shoplist')
+  else 
+    erb :choose_shoplist
+  end
+end
+
+get '/delete_shoplist' do
+  @lists = settings.shoplist_base
+  erb :delete_shoplist
+end
+
+post '/delete_shoplist' do
+  @lists = settings.shoplist_base
+  @errors = 'Число должно быть больше 0 и меньше максимального номера списка'
+  if params['index'].to_i >= 1 && params['index'].to_i <= settings.shoplist_base.size
+    settings.shoplist_base.remove_list(params['index'].to_i - 1)
+    redirect('/shoplists')
+  else
+    erb :delete_shoplist
+  end
+end
+
+get '/show_shoplists' do
+  @lists = settings.shoplist_base
+  erb :show_shoplists
+end
+
+post '/show_shoplists' do
+  redirect('/shoplists')
 end

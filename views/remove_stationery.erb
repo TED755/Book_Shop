@@ -3,17 +3,17 @@
   <div class="form-group">
     <label for="index">Номер товара, который вы желаете удалить</label>
     <ol>
-          <% @stationery_list.each do |stat| %>
-            <li>
-              <dl>
-                <dd class="card-text" id=name name=name><%= "Название: #{stat.name}" %></dd>
-                <dd class="card-text" id=price name=price><%= "Цена: #{stat.price}"%></dd>
-                <dd class="card-text" id=count name=count><%= "Количество: #{stat.count}"%></dd>
-                <br />
-              </dl>
-            </li>
-          <% end %>
-        </ol>
+      <% @stationery_list.each do |stat| %>
+        <li>
+          <dl>
+            <dd class="card-text" id=name name=name><%= "Название: #{stat.name}" %></dd>
+            <dd class="card-text" id=price name=price><%= "Цена: #{stat.price}"%></dd>
+            <dd class="card-text" id=count name=count><%= "Количество: #{stat.count}"%></dd>
+            <br />
+          </dl>
+        </li>
+      <% end %>
+    </ol>
     <input type="number" class="form-control" id="index" name="index" placeholder="Введите номер">
     <% if @errors %>
       <%= @errors%>

@@ -47,10 +47,10 @@ class BooksList
   end
 
   def remove_book_at(index)
-    if @books_list.at(index.to_i - 1).count == 1
-      @books_list.delete_at(index.to_i - 1)
+    if @books_list.at(index).count == 1
+      @books_list.delete_at(index)
     else
-      @books_list.at(index.to_i - 1).count -= 1
+      @books_list.at(index).count -= 1
     end
   end
 

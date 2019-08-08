@@ -1,0 +1,10 @@
+<h2>Введите номер списка, который хотите выбрать</h2>
+<form method="post">
+<div class="form-group">
+  <input type="number" class="form-control" id="index" name="index" placeholder="Введите номер">
+  <button type="submit" class="btn btn-primary">Далее</button>
+    <% if @errors %>
+      <%= @errors%>
+    <% end %>
+  </div>
+</form>

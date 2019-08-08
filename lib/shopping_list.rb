@@ -100,4 +100,13 @@ class ShoppingList
     str += "Итого: #{@total}\n"
     str
   end
+
+  def info
+    str = ""
+    @list.each do |pos|
+      str += "#{pos}\n"
+      str += "| "
+    end
+    str
+  end
 end
