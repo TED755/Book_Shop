@@ -1,12 +1,21 @@
 # frozen_string_literal: true
 
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
-gem 'puma'
-gem 'rerun'
+git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
+
+# gem "rails"
+
+gem 'rubocop', require: false
+
 gem 'sinatra'
 
-gem 'rubocop'
+gem 'rerun'
+
+gem 'puma'
+
+gem 'rspec'
+
+gem 'simplecov'
 
 gem 'capybara'
-gem 'rspec'
