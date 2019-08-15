@@ -67,11 +67,4 @@ class BooksList
     end
     nil
   end
-
-  def clear(shoplist)
-    shoplist.each do |pos|
-      i = 0
-      @books_list.delete(pos) while i < pos.count
-    end
-  end
 end

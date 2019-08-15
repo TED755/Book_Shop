@@ -55,10 +55,6 @@ class StationeryList
     @stationery_list.delete_at(index(stat)) if @stationery_list.at(index(stat).to_i).count.zero?
   end
 
-  def empty?
-    @stationery_list.empty?
-  end
-
   def index(pos)
     @stationery_list.each_with_index do |this_pos, index|
       if pos.type == this_pos.type

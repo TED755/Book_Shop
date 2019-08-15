@@ -190,8 +190,6 @@ post '/delete_from_shoplist' do
     when 'stationery'
       settings.shoplist.remove_at(params['index'].to_i - 1)
       redirect('/shoplist')
-    else
-      erb :delete_from_shoplist
     end
   else
     erb :delete_from_shoplist

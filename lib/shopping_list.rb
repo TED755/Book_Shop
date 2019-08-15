@@ -30,21 +30,12 @@ class ShoppingList
     end
   end
 
-  def remove(pos)
-    @total -= pos.price
-    @list.delete(pos)
-  end
-
   def each
     @list.each { |pos| yield pos }
   end
 
   def empty?
     @list.empty?
-  end
-
-  def last
-    @list.last
   end
 
   def at(index)
