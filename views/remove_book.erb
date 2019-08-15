@@ -3,19 +3,19 @@
   <div class="form-group">
     <label for="index">Номер книги, которую вы желаете удалить</label>
     <ol>
-          <% @book_list.each do |book| %>
-            <li>
-              <dl>
-                <dd class="card-text" id=author name=author><%= "Автор: #{book.author}" %></dd>
-                <dd class="card-text" id=name name=name><%= "Название: #{book.name}" %></dd>
-                <dd class="card-text" id=genre name=genre><%= "Жанр: #{book.genre}"%></dd>
-                <dd class="card-text" id=price name=price><%= "Цена: #{book.price}"%></dd>
-                <dd class="card-text" id=count name=count><%= "Количество: #{book.count}"%></dd>
-                <br />
-              </dl>
-            </li>
-          <% end %>
-        </ol>
+      <% @book_list.each do |book| %>
+        <li>
+          <dl>
+            <dd class="card-text" id=author name=author><%= "Автор: #{book.author}" %></dd>
+            <dd class="card-text" id=name name=name><%= "Название: #{book.name}" %></dd>
+            <dd class="card-text" id=genre name=genre><%= "Жанр: #{book.genre}"%></dd>
+            <dd class="card-text" id=price name=price><%= "Цена: #{book.price}"%></dd>
+            <dd class="card-text" id=count name=count><%= "Количество: #{book.count}"%></dd>
+            <br />
+          </dl>
+        </li>
+      <% end %>
+    </ol>
     <input type="number" class="form-control" id="index" name="index" placeholder="Введите номер">
     <% if @errors %>
       <%= @errors%>

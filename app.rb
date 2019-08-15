@@ -122,7 +122,7 @@ end
 
 post '/remove_stationery' do
   @stationery_list = settings.stationery_list
-  @errors = 'Число должно быть больше 0 и меньше максимального номера книги'
+  @errors = 'Число должно быть больше 0 и меньше максимального номера товара'
   if params['index'].to_i >= 1 && params['index'].to_i <= settings.stationery_list.size
     settings.stationery_list.remove_stationery_at(params['index'].to_i - 1)
     redirect('/')
@@ -134,8 +134,6 @@ end
 get '/shoplist' do
   settings.shoplist = settings.shoplist_base.current
   @number = settings.shoplist_base.index(settings.shoplist).to_i
-  puts @number
-  puts 'nil' if @number.nil?
   erb :shoplist
 end
 
