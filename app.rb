@@ -223,7 +223,7 @@ post '/pay_shoplist' do
   if @errors.nil?
     Commands.save_file(params['file'], @shoplist)
     Commands.remove_goods(@books, @stationerires, @shoplist)
-    settings.shoplist_base.remove_list(settings.shoplist_base.index(settings.shoplist))
+    settings.shoplist_base.remove_list(settings.shoplist_base.index(settings.shoplist).to_i)
     settings.shoplist.clear
     redirect('/')
   else

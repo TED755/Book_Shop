@@ -347,6 +347,7 @@ RSpec.describe 'Application', type: :feature do
   it 'Негативный тест на оплату (недостаточно книг)' do
     visit('/')
     count = find_by_id('count', match: :first).text.gsub('Количество: ', '')
+    
     click_on('Списки покупок')
     click_on('Создать новый список')
 
@@ -356,7 +357,6 @@ RSpec.describe 'Application', type: :feature do
       fill_in('index', with: 1)
       click_on('Добавить книгу в список')
     end
-
     click_on('Оплатить')
     click_on('Оплатить')
     expect(page).to have_content('Товара (1) не хватает в магазине для совершения покупки')

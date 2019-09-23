@@ -15,8 +15,8 @@ class Book
   end
 
   def equal?(other)
-    @author == other.author.downcase && @name == other.name.downcase && @genre == other.genre.downcase &&
-      @price == other.price
+    @author.downcase == other.author.downcase && @name.downcase == other.name.downcase && 
+      @genre.downcase == other.genre.downcase && @price == other.price
   end
 
   def check
